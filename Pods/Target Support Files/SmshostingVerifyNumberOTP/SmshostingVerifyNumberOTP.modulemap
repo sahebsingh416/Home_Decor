@@ -1,0 +1,6 @@
+framework module SmshostingVerifyNumberOTP {
+  umbrella header "SmshostingVerifyNumberOTP-umbrella.h"
+
+  export *
+  module * { export * }
+}
