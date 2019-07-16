@@ -30,6 +30,11 @@ class LoginScreenViewController: UIViewController,UITextFieldDelegate{
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        emailTextField.text = ""
+        passwordTextField.text = ""
+    }
+    
     @IBAction func loginButton(_ sender: Any) {
         SVProgressHUD.show()
         SVProgressHUD.setDefaultStyle(.custom)

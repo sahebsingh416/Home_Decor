@@ -34,6 +34,13 @@ class SignInViewController: UIViewController,UITextFieldDelegate{
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        emailTextField.text = ""        
+        passwordTextField.text = ""
+        fullNameTextField.text = ""
+        phoneNumberTextField.text = ""
+    }
+    
     @IBAction func backToLoginButton(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
