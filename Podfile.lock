@@ -6,6 +6,7 @@ PODS:
     - BoringSSL-GRPC/Interface (= 0.0.3)
   - BoringSSL-GRPC/Interface (0.0.3)
   - BottomDrawer (0.1.1)
+  - Bottomsheet (1.4.0)
   - Crashlytics (3.13.3):
     - Fabric (~> 1.10.2)
   - Fabric (1.10.2)
@@ -123,6 +124,7 @@ PODS:
 
 DEPENDENCIES:
   - BottomDrawer
+  - Bottomsheet
   - Crashlytics (~> 3.13.2)
   - Fabric (~> 1.10.2)
   - Firebase/Analytics
@@ -140,6 +142,7 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - BoringSSL-GRPC
     - BottomDrawer
+    - Bottomsheet
     - Crashlytics
     - Fabric
     - Firebase
@@ -167,6 +170,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
   BottomDrawer: 5993cb55da08ccd92b6674d8b925410cb765f34f
+  Bottomsheet: e1b1f2251694457eaab4599fab1ec5eede5a537e
   Crashlytics: 2aa08cd61fb1d62718c4e653169461d1d7377de2
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   Firebase: 9445469655a98e9010737f4bc4720e5bda465873
@@ -191,6 +195,6 @@ SPEC CHECKSUMS:
   SmshostingVerifyNumberOTP: 7fedae90ade2ee38964059a6ac107a54e52678f6
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: b5b09ddfaca9dfdc926048ff47c8b2ef40232494
+PODFILE CHECKSUM: a4673a95efce497184b1bf02a9108b9744b12cba
 
 COCOAPODS: 1.7.2

@@ -18,4 +18,6 @@ target 'Home Decor' do
     pod 'SmshostingVerifyNumberOTP'
     pod 'BottomDrawer'
     pod 'MGK3DButton'
+    pod 'SVProgressHUD'
+    pod 'Bottomsheet'
 end

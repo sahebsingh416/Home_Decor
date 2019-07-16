@@ -165,7 +165,7 @@
 				6FD15B6722D31BCA0030AA24 /* Frameworks */,
 				6FD15B6822D31BCA0030AA24 /* Resources */,
 				4417EC2D023E8FB7BFACEE74 /* [CP] Embed Pods Frameworks */,
-				6F63866122DC4D3A00D8DC6E /* ShellScript */,
+				6F63866122DC4D3A00D8DC6E /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -241,7 +241,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Home Decor/Pods-Home Decor-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6F63866122DC4D3A00D8DC6E /* ShellScript */ = {
+		6F63866122DC4D3A00D8DC6E /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -249,7 +249,9 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (

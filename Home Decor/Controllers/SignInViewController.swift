@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import SkyFloatingLabelTextField
+import SVProgressHUD
 
 class SignInViewController: UIViewController,UITextFieldDelegate{
     @IBOutlet weak var fullNameTextField: SkyFloatingLabelTextField!
@@ -22,6 +23,9 @@ class SignInViewController: UIViewController,UITextFieldDelegate{
         super.viewDidLoad()
         Fabric.sharedSDK().debug = true
         emailTextField.delegate = self
+        passwordTextField.delegate = self
+        fullNameTextField.delegate = self
+        phoneNumberTextField.delegate = self
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         actionCodeSettings.url = URL(string: "https://sahebsingh.page.link")
         // The sign-in operation has to always be completed in the app.
@@ -35,14 +39,22 @@ class SignInViewController: UIViewController,UITextFieldDelegate{
     }
     
     @IBAction func signUpButton(_ sender: Any) {
+        SVProgressHUD.show()
+        SVProgressHUD.setDefaultStyle(.custom)
+        SVProgressHUD.setDefaultMaskType(.custom)
+        SVProgressHUD.setBackgroundColor(UIColor.white)
+        SVProgressHUD.setForegroundColor(UIColor.orange)
         Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
             if user != nil {
                 let otp = 12345
                 UserDefaults.standard.set(otp, forKey: "userOTP")
+                SVProgressHUD.dismiss()
                 let verifyVC = self.storyboard?.instantiateViewController(withIdentifier: "VerifyViewController") as! VerifyViewController
                 self.navigationController?.pushViewController(verifyVC, animated: true)
+                
             }
             if let error = error {
+                SVProgressHUD.dismiss()
                 let alert = UIAlertController(title: "\(error.localizedDescription)", message: "", preferredStyle: .alert )
                 alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
@@ -57,6 +69,7 @@ class SignInViewController: UIViewController,UITextFieldDelegate{
                 let alert = UIAlertController(title: "Check your email to comeplete Sign In", message: "", preferredStyle: .alert )
                 alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
+                
             }
         }
         checkEmptyFields()
@@ -100,6 +113,11 @@ class SignInViewController: UIViewController,UITextFieldDelegate{
                 }
             }
         }
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
         return true
     }
     /*

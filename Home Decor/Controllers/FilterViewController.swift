@@ -14,6 +14,9 @@ class FilterViewController: BottomController {
     
     @IBOutlet var checkedImages: [UIImageView]!
     @IBOutlet var categoryImages: [UIImageView]!
+    @IBOutlet var categoryLabels: [UILabel]!
+    
+    var textToSearch = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,10 +33,12 @@ class FilterViewController: BottomController {
     
     @IBAction func checkCategory(_ sender: UIButton) {
         checkCategory(value: sender.tag-9)
+        textToSearch.append(categoryLabels[sender.tag-1].text!)
     }
     
     @IBAction func checkButton(_ sender: UIButton) {
         checked(value: sender.tag-1)
+        textToSearch.append(categoryLabels[sender.tag-1].text!)
     }
     
     func checkCategory(value: Int) {
@@ -45,12 +50,14 @@ class FilterViewController: BottomController {
     }
     @IBAction func cancelButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+        textToSearch.removeAll()
     }
     
     @IBAction func resetButton(_ sender: Any) {
         for images in checkedImages {
             images.isHidden = true
         }
+        textToSearch.removeAll()
         for images in categoryImages {
             images.isHidden = true
         }
@@ -58,9 +65,12 @@ class FilterViewController: BottomController {
     
     @IBAction func applyAction(_ sender: Any) {
         
-        
+        UserDefaults.standard.setValue(textToSearch, forKey: "Filter")
+        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+        let homeVC = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+        homeVC.filteredSearch = textToSearch
         dismiss(animated: true, completion: nil)
-        
+
     }
 }
 

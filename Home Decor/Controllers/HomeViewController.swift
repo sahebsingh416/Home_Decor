@@ -23,7 +23,7 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
     @IBOutlet weak var addToCartLabel: UILabel!
     @IBOutlet weak var addToCartBadge: UIView!
     
-    
+    var filteredSearch = [String]()
     var itemArray = [Items]()
     let db = Firestore.firestore()
     let itemsPerRow: CGFloat = 2
@@ -31,6 +31,7 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
                                      left: 15.0,
                                      bottom: 10.0,
                                      right: 15.0)
+    let filter = 0
     
     //MARK: - viewDidLoad() Method
     
@@ -43,12 +44,14 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
         searchedCollecton.delegate = self
         searchedCollecton.dataSource = self
         searchBar.layer.borderWidth = 10
+        addToCartBadge.layer.cornerRadius = addToCartBadge.frame.size.width / 2
         searchBar.layer.borderColor = UIColor(red: 235, green: 235, blue: 235, alpha: 0).cgColor
         getData()
     }
+
     
     override func viewWillAppear(_ animated: Bool) {
-        addToCartBadge.layer.cornerRadius = addToCartBadge.frame.size.width / 2
+        
         addToCartLabel.text = String(UserDefaults.standard.integer(forKey: "Items_in_Cart"))
         getData()
         furnitureCollection.reloadData()
@@ -100,15 +103,18 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
     //MARK: - Search Bar Delegates
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchedData(for: searchBar.text!)
+        if filteredSearch.count > 0 {
+//            searchFilteredData(for: filteredSearch)
+//            filteredSearch.removeAll()
+        }
+        else{
+            searchedData(for: searchBar.text!)
+        }
         furnitureCollection.reloadData()
         searchedCollecton.reloadData()
         secondView.isHidden = false
+        furnitureCollection.isHidden = true
         self.searchBar.resignFirstResponder()
-//        DispatchQueue.main.async {
-//            self.searchBar.resignFirstResponder()
-//        }
-        
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -117,6 +123,7 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
             furnitureCollection.reloadData()
             secondView.isHidden = true
             self.furnitureCollection.isHidden = false
+            furnitureCollection.isHidden = false
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder()
             }
@@ -164,6 +171,49 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
         }
         searchedCollecton.reloadData()
     }
+    
+//    func searchFilteredData(for array : [String])
+//    {
+//        for text in array {
+//            db.collection("products").getDocuments { (querySnapshot, err) in
+//                self.itemArray.removeAll()
+//                if let err = err{
+//                    print("Error getting documents \(err)")
+//                }
+//                else{
+//                    for document in querySnapshot!.documents{
+//                        let newItem = Items()
+//                        let name = (document.data()["name"] as! String)
+//                        newItem.sofaName = name
+//                        let price = (document.data()["price"] as! Double)
+//                        newItem.sofaPrice = price
+//                        let type = (document.data()["type"] as! String)
+//                        newItem.sofaType = type
+//                        let color = (document.data()["color"] as! String)
+//                        newItem.sofaColor = color
+//                        let weight = (document.data()["weight"] as! String)
+//                        newItem.sofaWeight = weight
+//                        self.furnitureCollection.reloadData()
+//                        let storageRef = Storage.storage().reference(withPath: "products/\(document.documentID).png")
+//                        storageRef.getData(maxSize: 4 * 1024 * 1024) { (data, error) in
+//                            if let error = error{
+//                                print("Error: \(error)")
+//                            }
+//                            if let data = data{
+//                                newItem.sofaImage = UIImage(data: data)
+//                                self.searchedCollecton.reloadData()
+//                            }
+//                        }
+//                        if name.lowercased().contains(text.lowercased()) || type.lowercased().contains(text.lowercased()) {
+//                            self.itemArray.append(newItem)                    }
+//                    }
+//                    self.productsLabel.text = "\(self.itemArray.count) products found for \(self.searchBar.text!)"
+//                }
+//            }
+//            searchedCollecton.reloadData()
+//        }
+//        
+//    }
     
     //MARK: - Filter Action
     
