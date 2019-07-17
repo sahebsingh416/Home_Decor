@@ -145,8 +145,6 @@ class SignInViewController: UIViewController,UITextFieldDelegate{
         }
     }
     
-    end
-    
     func textFieldDidEndEditing(_ textField: UITextField) {
         UIView.animate(withDuration: 0.0) {
             self.viewHeight.constant = 509

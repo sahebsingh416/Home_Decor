@@ -117,4 +117,13 @@ class LoginScreenViewController: UIViewController,UITextFieldDelegate{
         
     }
     
+    @IBAction func forgotPasswordButton(_ sender: Any) {
+       
+        let forgotVC = self.storyboard?.instantiateViewController(withIdentifier: "ForgotPassVC") as! ForgotPassVC
+        navigationController?.pushViewController(forgotVC, animated: true)
+        
+    }
+    
+    
 }
+
