@@ -36,7 +36,7 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
     //MARK: - viewDidLoad() Method
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad()	
         Fabric.sharedSDK().debug = true
         secondView.isHidden = true
         furnitureCollection.delegate = self

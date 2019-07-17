@@ -29,6 +29,35 @@
 /* Begin PBXFileReference section */
 		6F017C8722D6F82A00AB5FC3 /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		6F300DCE22D71CD300BDA588 /* SearchedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedCell.swift; sourceTree = "<group>"; };
+		6F91CB3F22DEEE5100E31216 /* AbhayaLibre-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AbhayaLibre-Regular.ttf"; sourceTree = "<group>"; };
+		6F91CB4022DEEE5100E31216 /* AbhayaLibre-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AbhayaLibre-Bold.ttf"; sourceTree = "<group>"; };
+		6F91CB4122DEEE5100E31216 /* AbhayaLibre-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AbhayaLibre-Medium.ttf"; sourceTree = "<group>"; };
+		6F91CB4222DEEE5100E31216 /* AbhayaLibre-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AbhayaLibre-ExtraBold.ttf"; sourceTree = "<group>"; };
+		6F91CB4322DEEE5100E31216 /* AbhayaLibre-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AbhayaLibre-SemiBold.ttf"; sourceTree = "<group>"; };
+		6F91CB4422DEEE6900E31216 /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
+		6F91CB4522DEEE6900E31216 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
+		6F91CB4622DEEE6900E31216 /* Roboto-RegularItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-RegularItalic.ttf"; sourceTree = "<group>"; };
+		6F91CB4722DEEE6900E31216 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
+		6F91CB4822DEEE6900E31216 /* Roboto-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-LightItalic.ttf"; sourceTree = "<group>"; };
+		6F91CB4922DEEE6900E31216 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		6F91CB4A22DEEE6900E31216 /* Roboto-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-MediumItalic.ttf"; sourceTree = "<group>"; };
+		6F91CB4B22DEEE6900E31216 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		6F91CB4C22DEEE6900E31216 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		6F91CB4D22DEEE6A00E31216 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
+		6F91CB4E22DEEE6A00E31216 /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
+		6F91CB4F22DEEE6A00E31216 /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
+		6F91CB5022DEF04A00E31216 /* SourceSansPro-ExtraLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		6F91CB5122DEF04A00E31216 /* SourceSansPro-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-BoldItalic.ttf"; sourceTree = "<group>"; };
+		6F91CB5222DEF04A00E31216 /* SourceSansPro-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-ExtraLight.ttf"; sourceTree = "<group>"; };
+		6F91CB5322DEF04A00E31216 /* SourceSansPro-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Light.ttf"; sourceTree = "<group>"; };
+		6F91CB5422DEF04A00E31216 /* SourceSansPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Regular.ttf"; sourceTree = "<group>"; };
+		6F91CB5522DEF04A00E31216 /* SourceSansPro-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-SemiBold.ttf"; sourceTree = "<group>"; };
+		6F91CB5622DEF04A00E31216 /* SourceSansPro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Bold.ttf"; sourceTree = "<group>"; };
+		6F91CB5722DEF04B00E31216 /* SourceSansPro-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-Black.ttf"; sourceTree = "<group>"; };
+		6F91CB5822DEF04B00E31216 /* SourceSansPro-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		6F91CB5922DEF04B00E31216 /* SourceSansPro-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-LightItalic.ttf"; sourceTree = "<group>"; };
+		6F91CB5A22DEF04B00E31216 /* SourceSansPro-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-BlackItalic.ttf"; sourceTree = "<group>"; };
+		6F91CB5B22DEF04B00E31216 /* SourceSansPro-RegularItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceSansPro-RegularItalic.ttf"; sourceTree = "<group>"; };
 		6FAD779722D45EE400CDC2C7 /* Items.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
 		6FAD779A22D469B300CDC2C7 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		6FAD779E22D492F400CDC2C7 /* ProductDescriptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionVC.swift; sourceTree = "<group>"; };
@@ -70,6 +99,42 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6F91CB3E22DEEE2900E31216 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				6F91CB4022DEEE5100E31216 /* AbhayaLibre-Bold.ttf */,
+				6F91CB4222DEEE5100E31216 /* AbhayaLibre-ExtraBold.ttf */,
+				6F91CB4122DEEE5100E31216 /* AbhayaLibre-Medium.ttf */,
+				6F91CB3F22DEEE5100E31216 /* AbhayaLibre-Regular.ttf */,
+				6F91CB4322DEEE5100E31216 /* AbhayaLibre-SemiBold.ttf */,
+				6F91CB4522DEEE6900E31216 /* Roboto-Black.ttf */,
+				6F91CB4E22DEEE6A00E31216 /* Roboto-BlackItalic.ttf */,
+				6F91CB4B22DEEE6900E31216 /* Roboto-Bold.ttf */,
+				6F91CB4422DEEE6900E31216 /* Roboto-BoldItalic.ttf */,
+				6F91CB4D22DEEE6A00E31216 /* Roboto-Light.ttf */,
+				6F91CB4822DEEE6900E31216 /* Roboto-LightItalic.ttf */,
+				6F91CB4922DEEE6900E31216 /* Roboto-Medium.ttf */,
+				6F91CB4A22DEEE6900E31216 /* Roboto-MediumItalic.ttf */,
+				6F91CB4C22DEEE6900E31216 /* Roboto-Regular.ttf */,
+				6F91CB4622DEEE6900E31216 /* Roboto-RegularItalic.ttf */,
+				6F91CB4722DEEE6900E31216 /* Roboto-Thin.ttf */,
+				6F91CB4F22DEEE6A00E31216 /* Roboto-ThinItalic.ttf */,
+				6F91CB5722DEF04B00E31216 /* SourceSansPro-Black.ttf */,
+				6F91CB5A22DEF04B00E31216 /* SourceSansPro-BlackItalic.ttf */,
+				6F91CB5622DEF04A00E31216 /* SourceSansPro-Bold.ttf */,
+				6F91CB5122DEF04A00E31216 /* SourceSansPro-BoldItalic.ttf */,
+				6F91CB5222DEF04A00E31216 /* SourceSansPro-ExtraLight.ttf */,
+				6F91CB5022DEF04A00E31216 /* SourceSansPro-ExtraLightItalic.ttf */,
+				6F91CB5322DEF04A00E31216 /* SourceSansPro-Light.ttf */,
+				6F91CB5922DEF04B00E31216 /* SourceSansPro-LightItalic.ttf */,
+				6F91CB5422DEF04A00E31216 /* SourceSansPro-Regular.ttf */,
+				6F91CB5B22DEF04B00E31216 /* SourceSansPro-RegularItalic.ttf */,
+				6F91CB5522DEF04A00E31216 /* SourceSansPro-SemiBold.ttf */,
+				6F91CB5822DEF04B00E31216 /* SourceSansPro-SemiBoldItalic.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		6FAD779922D45EE900CDC2C7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +169,7 @@
 				6FD15B8122D31EFC0030AA24 /* Views */,
 				6FD15B8222D31F0B0030AA24 /* Controllers */,
 				6FD15B8322D31F1B0030AA24 /* Supporting Files */,
+				6F91CB3E22DEEE2900E31216 /* Fonts */,
 				6FD15B7F22D31C370030AA24 /* GoogleService-Info.plist */,
 				6FD15B7922D31BCB0030AA24 /* Info.plist */,
 			);

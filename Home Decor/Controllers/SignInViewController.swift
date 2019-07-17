@@ -16,6 +16,8 @@ class SignInViewController: UIViewController,UITextFieldDelegate{
     @IBOutlet weak var phoneNumberTextField: SkyFloatingLabelTextField!
     @IBOutlet weak var emailTextField: SkyFloatingLabelTextField!
     @IBOutlet weak var passwordTextField: SkyFloatingLabelTextField!
+    @IBOutlet weak var viewHeight: NSLayoutConstraint!
+    
     
     let actionCodeSettings = ActionCodeSettings()
     
@@ -126,6 +128,31 @@ class SignInViewController: UIViewController,UITextFieldDelegate{
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.endEditing(true)
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        NotificationCenter.default.addObserver(self, selector: #selector(SignInViewController.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            UIView.animate(withDuration: 0.0) {
+                self.viewHeight.constant = keyboardHeight + 50
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
+    end
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        UIView.animate(withDuration: 0.0) {
+            self.viewHeight.constant = 509
+            self.view.layoutIfNeeded()
+            
+    }
     }
     /*
     // MARK: - Navigation
