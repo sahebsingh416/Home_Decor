@@ -20,6 +20,7 @@ class SignInViewController: UIViewController,UITextFieldDelegate{
     
     
     let actionCodeSettings = ActionCodeSettings()
+    let db = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +54,7 @@ class SignInViewController: UIViewController,UITextFieldDelegate{
         SVProgressHUD.setDefaultMaskType(.custom)
         SVProgressHUD.setBackgroundColor(UIColor.white)
         SVProgressHUD.setForegroundColor(UIColor.orange)
+        uploadData()
         Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
             if user != nil {
                 let otp = 12345
@@ -129,28 +131,51 @@ class SignInViewController: UIViewController,UITextFieldDelegate{
         textField.endEditing(true)
         return true
     }
+//
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//        NotificationCenter.default.addObserver(self, selector: #selector(SignInViewController.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+//    }
+//
+//    @objc func keyboardWillShow(_ notification: Notification) {
+//        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+//            let keyboardRectangle = keyboardFrame.cgRectValue
+//            let keyboardHeight = keyboardRectangle.height
+//            UIView.animate(withDuration: 0.0) {
+//                self.viewHeight.constant = keyboardHeight + 50
+//                self.view.layoutIfNeeded()
+//            }
+//        }
+//    }
+//
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        UIView.animate(withDuration: 0.0) {
+//            self.viewHeight.constant = 509
+//            self.view.layoutIfNeeded()
+//
+//    }
+//    }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        NotificationCenter.default.addObserver(self, selector: #selector(SignInViewController.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-    }
-    
-    @objc func keyboardWillShow(_ notification: Notification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            UIView.animate(withDuration: 0.0) {
-                self.viewHeight.constant = keyboardHeight + 50
-                self.view.layoutIfNeeded()
-            }
-        }
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        UIView.animate(withDuration: 0.0) {
-            self.viewHeight.constant = 509
-            self.view.layoutIfNeeded()
+    func uploadData() {
+        var ref : DocumentReference? = nil
+        ref = db.collection("users").addDocument(data: [
             
-    }
+            "name" : "\(fullNameTextField.text!)",
+            "phone" : "\(phoneNumberTextField.text!)",
+            "email" : "\(emailTextField.text!)"
+            
+        ]) { err in
+            
+            if let err = err{
+                print("Error documenting data \(err)")
+            }
+            else
+            {
+                
+                print("Document added with ID: \(ref!.documentID)")
+            }
+            
+        }
+        //Analytics.logEvent("caption_Posted", parameters: ["value":"\(caption!)"])
     }
     /*
     // MARK: - Navigation

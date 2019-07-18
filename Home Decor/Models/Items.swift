@@ -17,4 +17,5 @@ class Items {
     var sofaType : String = ""
     var sofaColor : String = ""
     var sofaWeight : String = ""
+    var currentID : String = ""
 }

@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import BottomDrawer
+import SVProgressHUD
 
 class HomeViewController: UIViewController,UISearchBarDelegate{
 
@@ -36,7 +37,9 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
     //MARK: - viewDidLoad() Method
     
     override func viewDidLoad() {
-        super.viewDidLoad()	
+        super.viewDidLoad()
+        UserDefaults.standard.setValue(Auth.auth().currentUser!.email!, forKey: "user")
+        print(String(UserDefaults.standard.integer(forKey: "cartItems")))
         Fabric.sharedSDK().debug = true
         secondView.isHidden = true
         furnitureCollection.delegate = self
@@ -47,12 +50,13 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
         addToCartBadge.layer.cornerRadius = addToCartBadge.frame.size.width / 2
         searchBar.layer.borderColor = UIColor(red: 235, green: 235, blue: 235, alpha: 0).cgColor
         getData()
+        getItemsInCart()
     }
 
     
     override func viewWillAppear(_ animated: Bool) {
         
-        addToCartLabel.text = String(UserDefaults.standard.integer(forKey: "Items_in_Cart"))
+        addToCartLabel.text = String(UserDefaults.standard.integer(forKey: "cartItems"))
         getData()
         furnitureCollection.reloadData()
     }
@@ -61,6 +65,11 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
     
     func getData()
     {
+        SVProgressHUD.show()
+        SVProgressHUD.setDefaultStyle(.custom)
+        SVProgressHUD.setDefaultMaskType(.custom)
+        SVProgressHUD.setBackgroundColor(UIColor.white)
+        SVProgressHUD.setForegroundColor(UIColor.orange)
         db.collection("products").getDocuments { (querySnapshot, err) in
             self.itemArray.removeAll()
             if let err = err{
@@ -95,10 +104,37 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
                 print(self.itemArray.count)
                 self.furnitureCollection.reloadData()
             }
+            SVProgressHUD.dismiss()
         }
         furnitureCollection.reloadData()
-        
+        UserDefaults.standard.setValue(Auth.auth().currentUser!.email!, forKey: "user")
+        getItemsInCart()
+
     }
+    
+    func getItemsInCart()
+    {
+        var itemsInCart = 0
+        let user = UserDefaults.standard.string(forKey: "user")!
+        print(user)
+        db.collection("cart").getDocuments { (querySnapshot, err) in
+            if let err = err{
+                print("Error getting documents \(err)")
+            }
+            else{
+                for document in querySnapshot!.documents{
+                    if user == (document.data()["user"] as! String){
+                        itemsInCart += 1
+                    }
+                    UserDefaults.standard.set(itemsInCart, forKey: "cartItems")
+                }
+                self.addToCartLabel.text = String(UserDefaults.standard.integer(forKey: "cartItems"))
+            }
+        }
+        
+        print("***********\(UserDefaults.standard.integer(forKey: "cartItems"))**********")
+    }
+
     
     //MARK: - Search Bar Delegates
     
@@ -134,6 +170,11 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
     
     func searchedData(for text : String)
     {
+        SVProgressHUD.show()
+        SVProgressHUD.setDefaultStyle(.custom)
+        SVProgressHUD.setDefaultMaskType(.custom)
+        SVProgressHUD.setBackgroundColor(UIColor.white)
+        SVProgressHUD.setForegroundColor(UIColor.orange)
         db.collection("products").getDocuments { (querySnapshot, err) in
             self.itemArray.removeAll()
             if let err = err{
@@ -168,6 +209,7 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
                 }
                 self.productsLabel.text = "\(self.itemArray.count) products found for \(self.searchBar.text!)"
             }
+            SVProgressHUD.dismiss()
         }
         searchedCollecton.reloadData()
     }
@@ -217,6 +259,10 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
     
     //MARK: - Filter Action
     
+    @IBAction func addToCartButton(_ sender: UIButton) {
+        let cartVC = self.storyboard?.instantiateViewController(withIdentifier: "CartViewController") as! CartViewController
+        navigationController?.pushViewController(cartVC, animated: true)
+    }
     @IBAction func filterButton(_ sender: Any) {
         let request = self.storyboard?.instantiateViewController(withIdentifier: "FilterViewController") as? FilterViewController
         let v = BottomController()
@@ -266,7 +312,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
             descVC.descImage = itemArray[indexPath.row].sofaImage
             descVC.descColor = itemArray[indexPath.row].sofaColor
             descVC.descWeight = itemArray[indexPath.row].sofaWeight
-            descVC.descPrice = "Rp \(String(itemArray[indexPath.row].sofaPrice))"
+            descVC.descPrice = itemArray[indexPath.row].sofaPrice
             navigationController?.pushViewController(descVC, animated: true)
         }
         else {
@@ -275,7 +321,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
             descVC.descImage = itemArray[indexPath.row].sofaImage
             descVC.descColor = itemArray[indexPath.row].sofaColor
             descVC.descWeight = itemArray[indexPath.row].sofaWeight
-            descVC.descPrice = "Rp \(String(itemArray[indexPath.row].sofaPrice))"
+            descVC.descPrice = (itemArray[indexPath.row].sofaPrice)
             navigationController?.pushViewController(descVC, animated: true)
         }
     }

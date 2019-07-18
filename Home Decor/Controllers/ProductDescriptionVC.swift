@@ -14,10 +14,10 @@ class ProductDescriptionVC: UIViewController {
     var descImage : UIImage?
     var descName : String = ""
     var descType : String = ""
-    var descPrice : String = ""
+    var descPrice : Double = 0.0
     var descColor : String = ""
     var descWeight : String = ""
-    
+    var userEmail : String = ""
     
     
 
@@ -35,13 +35,15 @@ class ProductDescriptionVC: UIViewController {
         super.viewDidLoad()
         Fabric.sharedSDK().debug = true
         addToCartBadge.layer.cornerRadius = addToCartBadge.frame.size.width / 2
-        productPriceLabel.text = descPrice
+        productPriceLabel.text = "Rp \(String(descPrice))"
         productImageView.image = descImage
         productNameLabel.text = descName
         productTypeLabel.text = descType
         addToCartLabel.text = String(UserDefaults.standard.integer(forKey: "Items_in_Cart"))
         colorLabel.text = "\(descColor)"
         weightLabel.text = "\(descWeight) Kg"
+        userEmail = UserDefaults.standard.string(forKey: "user")!
+        print(userEmail)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,7 +65,8 @@ class ProductDescriptionVC: UIViewController {
             "color" : "\(descColor)",
             "type" : "\(descType)",
             "weight" : "\(descWeight)",
-            "price" : descPrice
+            "price" : descPrice,
+            "user" : "\(userEmail)"
             
         ]) { err in
             if let err = err {
@@ -98,6 +101,11 @@ class ProductDescriptionVC: UIViewController {
             }
         }
 //        Analytics.logEvent("image_Posted", parameters: ["url" : "uploads/\(postedID).jpg"])
+    }
+    @IBAction func cartButton(_ sender: Any) {
+        
+        let cartVC = self.storyboard?.instantiateViewController(withIdentifier: "CartViewController") as! CartViewController
+        navigationController?.pushViewController(cartVC, animated: true)
     }
 }
 
