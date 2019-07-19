@@ -47,8 +47,14 @@ class CartViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         if editingStyle == .delete
         {
             deleteData(of: itemArray[indexPath.row].currentID)
+            var items = UserDefaults.standard.integer(forKey: "cartItems")
+            items -= 1
+            UserDefaults.standard.set(items, forKey: "cartItems")
             itemArray.remove(at: indexPath.row)
             tableView.reloadData()
+            if itemArray.count == 0 {
+                cartTableView.isHidden = true
+            }
         }
     }
     
@@ -119,9 +125,13 @@ class CartViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
     @IBAction func clearCartButton(_ sender: Any) {
+        for product in itemArray {
+            deleteData(of: product.currentID)
+        }
         itemArray.removeAll()
         cartTableView.reloadData()
         cartTableView.isHidden = true
+        UserDefaults.standard.set(0, forKey: "cartItems")
     }
     /*
     // MARK: - Navigation

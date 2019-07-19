@@ -39,7 +39,6 @@ class ProductDescriptionVC: UIViewController {
         productImageView.image = descImage
         productNameLabel.text = descName
         productTypeLabel.text = descType
-        addToCartLabel.text = String(UserDefaults.standard.integer(forKey: "Items_in_Cart"))
         colorLabel.text = "\(descColor)"
         weightLabel.text = "\(descWeight) Kg"
         userEmail = UserDefaults.standard.string(forKey: "user")!
@@ -48,6 +47,7 @@ class ProductDescriptionVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         priceView.layer.cornerRadius = priceView.frame.size.height / 2
+        addToCartLabel.text = String(UserDefaults.standard.integer(forKey: "cartItems"))
     }
     
     @IBAction func backButton(_ sender: Any) {
@@ -55,9 +55,9 @@ class ProductDescriptionVC: UIViewController {
     }
     
     @IBAction func addCartButton(_ sender: Any) {
-        let items = UserDefaults.standard.integer(forKey: "Items_in_Cart")
-        UserDefaults.standard.set(items+1, forKey: "Items_in_Cart")
-        addToCartLabel.text = String(UserDefaults.standard.integer(forKey: "Items_in_Cart"))
+        let items = UserDefaults.standard.integer(forKey: "cartItems")
+        UserDefaults.standard.set(items+1, forKey: "cartItems")
+        addToCartLabel.text = String(UserDefaults.standard.integer(forKey: "cartItems"))
         var ref : DocumentReference? = nil
         ref = db.collection("cart").addDocument(data: [
             

@@ -7,10 +7,9 @@
 //
 
 import UIKit
-import BottomDrawer
 import Fabric
 
-class FilterViewController: BottomController {
+class FilterViewController: UIViewController {
     
     @IBOutlet var checkedImages: [UIImageView]!
     @IBOutlet var categoryImages: [UIImageView]!
@@ -65,11 +64,8 @@ class FilterViewController: BottomController {
     
     @IBAction func applyAction(_ sender: Any) {
         
-        UserDefaults.standard.setValue(textToSearch, forKey: "Filter")
-        let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-        let homeVC = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-        homeVC.filteredSearch = textToSearch
-        dismiss(animated: true, completion: nil)
+        UserDefaults.standard.set(textToSearch, forKey: "dataToFilter")
+        self.navigationController?.popViewController(animated: true)
 
     }
 }

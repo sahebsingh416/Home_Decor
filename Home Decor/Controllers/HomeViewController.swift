@@ -32,13 +32,13 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
                                      left: 15.0,
                                      bottom: 10.0,
                                      right: 15.0)
-    let filter = 0
     
     //MARK: - viewDidLoad() Method
     
     override func viewDidLoad() {
         super.viewDidLoad()
         UserDefaults.standard.setValue(Auth.auth().currentUser!.email!, forKey: "user")
+        UserDefaults.standard.set([], forKey: "dataToFilter")
         print(String(UserDefaults.standard.integer(forKey: "cartItems")))
         Fabric.sharedSDK().debug = true
         secondView.isHidden = true
@@ -56,6 +56,8 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
     
     override func viewWillAppear(_ animated: Bool) {
         
+        filteredSearch = UserDefaults.standard.array(forKey: "dataToFilter") as! [String]
+        print("***********\(filteredSearch.count)***********")
         addToCartLabel.text = String(UserDefaults.standard.integer(forKey: "cartItems"))
         getData()
         furnitureCollection.reloadData()
@@ -139,11 +141,13 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
     //MARK: - Search Bar Delegates
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if filteredSearch.count > 0 {
+        if let range = UserDefaults.standard.array(forKey: "Filter")?.count {
+            print("Hello")
 //            searchFilteredData(for: filteredSearch)
 //            filteredSearch.removeAll()
         }
         else{
+            print("Hey")
             searchedData(for: searchBar.text!)
         }
         furnitureCollection.reloadData()
@@ -264,15 +268,8 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
         navigationController?.pushViewController(cartVC, animated: true)
     }
     @IBAction func filterButton(_ sender: Any) {
-        let request = self.storyboard?.instantiateViewController(withIdentifier: "FilterViewController") as? FilterViewController
-        let v = BottomController()
-        request?.view.backgroundColor = UIColor(red: 235, green: 235, blue: 235, alpha: 1)
-        v.destinationController = request
-        v.sourceController = self
-        v.startingHeight = 300
-        v.cornerRadius = 10
-        v.modalPresentationStyle = .overCurrentContext
-        self.present(v, animated: true, completion: nil)
+        let filterVC = self.storyboard?.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
+        self.navigationController?.pushViewController(filterVC, animated: true)
     }
 }
 
