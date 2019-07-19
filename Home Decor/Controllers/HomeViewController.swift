@@ -25,6 +25,7 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
     @IBOutlet weak var addToCartBadge: UIView!
     
     var filteredSearch = [String]()
+    var filteredPrice = [String : Double]()
     var itemArray = [Items]()
     let db = Firestore.firestore()
     let itemsPerRow: CGFloat = 2
@@ -39,7 +40,8 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
         super.viewDidLoad()
         UserDefaults.standard.setValue(Auth.auth().currentUser!.email!, forKey: "user")
         UserDefaults.standard.set([], forKey: "dataToFilter")
-        print(String(UserDefaults.standard.integer(forKey: "cartItems")))
+        UserDefaults.standard.set([:], forKey: "filteredPrice")
+        //print(String(UserDefaults.standard.integer(forKey: "cartItems")))
         Fabric.sharedSDK().debug = true
         secondView.isHidden = true
         furnitureCollection.delegate = self
@@ -55,9 +57,18 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
 
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        filteredPrice = UserDefaults.standard.dictionary(forKey: "filteredPrice") as! [String : Double]
         filteredSearch = UserDefaults.standard.array(forKey: "dataToFilter") as! [String]
-        print("***********\(filteredSearch.count)***********")
+        print(filteredSearch.count)
+        print(filteredPrice.count)
+        print("Hey")
+        if filteredSearch.count == 0 && filteredPrice.count == 0{
+            print("Hello")
+        }
+        else{
+           searchFilteredData(for: filteredSearch, price: filteredPrice)
+            searchedCollecton.reloadData()
+        }
         addToCartLabel.text = String(UserDefaults.standard.integer(forKey: "cartItems"))
         getData()
         furnitureCollection.reloadData()
@@ -103,10 +114,10 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
                     }
                     self.itemArray.append(newItem)
                 }
-                print(self.itemArray.count)
                 self.furnitureCollection.reloadData()
+                SVProgressHUD.dismiss()
             }
-            SVProgressHUD.dismiss()
+            
         }
         furnitureCollection.reloadData()
         UserDefaults.standard.setValue(Auth.auth().currentUser!.email!, forKey: "user")
@@ -133,23 +144,14 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
                 self.addToCartLabel.text = String(UserDefaults.standard.integer(forKey: "cartItems"))
             }
         }
-        
-        print("***********\(UserDefaults.standard.integer(forKey: "cartItems"))**********")
     }
 
     
     //MARK: - Search Bar Delegates
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if let range = UserDefaults.standard.array(forKey: "Filter")?.count {
-            print("Hello")
-//            searchFilteredData(for: filteredSearch)
-//            filteredSearch.removeAll()
-        }
-        else{
-            print("Hey")
-            searchedData(for: searchBar.text!)
-        }
+
+        searchedData(for: searchBar.text!)
         furnitureCollection.reloadData()
         searchedCollecton.reloadData()
         secondView.isHidden = false
@@ -218,48 +220,101 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
         searchedCollecton.reloadData()
     }
     
-//    func searchFilteredData(for array : [String])
-//    {
-//        for text in array {
-//            db.collection("products").getDocuments { (querySnapshot, err) in
-//                self.itemArray.removeAll()
-//                if let err = err{
-//                    print("Error getting documents \(err)")
-//                }
-//                else{
-//                    for document in querySnapshot!.documents{
-//                        let newItem = Items()
-//                        let name = (document.data()["name"] as! String)
-//                        newItem.sofaName = name
-//                        let price = (document.data()["price"] as! Double)
-//                        newItem.sofaPrice = price
-//                        let type = (document.data()["type"] as! String)
-//                        newItem.sofaType = type
-//                        let color = (document.data()["color"] as! String)
-//                        newItem.sofaColor = color
-//                        let weight = (document.data()["weight"] as! String)
-//                        newItem.sofaWeight = weight
-//                        self.furnitureCollection.reloadData()
-//                        let storageRef = Storage.storage().reference(withPath: "products/\(document.documentID).png")
-//                        storageRef.getData(maxSize: 4 * 1024 * 1024) { (data, error) in
-//                            if let error = error{
-//                                print("Error: \(error)")
-//                            }
-//                            if let data = data{
-//                                newItem.sofaImage = UIImage(data: data)
-//                                self.searchedCollecton.reloadData()
-//                            }
-//                        }
-//                        if name.lowercased().contains(text.lowercased()) || type.lowercased().contains(text.lowercased()) {
-//                            self.itemArray.append(newItem)                    }
-//                    }
-//                    self.productsLabel.text = "\(self.itemArray.count) products found for \(self.searchBar.text!)"
-//                }
-//            }
-//            searchedCollecton.reloadData()
-//        }
-//        
-//    }
+    //MARK: - Fetching filtered Data
+    
+    func searchFilteredData(for array : [String] = [""], price : [String : Double] = [:])
+    {
+        if array.count > 0 {
+            for text in array {
+                db.collection("products").getDocuments { (querySnapshot, err) in
+                    self.itemArray.removeAll()
+                    if let err = err{
+                        print("Error getting documents \(err)")
+                    }
+                    else{
+                        for document in querySnapshot!.documents{
+                            let newItem = Items()
+                            let name = (document.data()["name"] as! String)
+                            newItem.sofaName = name
+                            let price = (document.data()["price"] as! Double)
+                            newItem.sofaPrice = price
+                            let type = (document.data()["type"] as! String)
+                            newItem.sofaType = type
+                            let color = (document.data()["color"] as! String)
+                            newItem.sofaColor = color
+                            let weight = (document.data()["weight"] as! String)
+                            newItem.sofaWeight = weight
+                            self.searchedCollecton.reloadData()
+                            let storageRef = Storage.storage().reference(withPath: "products/\(document.documentID).png")
+                            storageRef.getData(maxSize: 4 * 1024 * 1024) { (data, error) in
+                                if let error = error{
+                                    print("Error: \(error)")
+                                }
+                                if let data = data{
+                                    newItem.sofaImage = UIImage(data: data)
+                                    //self.searchedCollecton.reloadData()
+                                }
+                            }
+                            if name.lowercased().contains(text.lowercased()) || type.lowercased().contains(text.lowercased()) {
+                                self.itemArray.append(newItem)
+                            }
+                        }
+                        self.searchedCollecton.reloadData()
+                        self.productsLabel.text = "\(self.itemArray.count) products found"
+                    }
+                }
+                searchedCollecton.reloadData()
+            }
+        }
+        print(price.count)
+        if price.count == 2 {
+            db.collection("products").getDocuments { (querySnapshot, err) in
+                self.itemArray.removeAll()
+                if let err = err{
+                    print("Error getting documents \(err)")
+                }
+                else{
+                    for document in querySnapshot!.documents{
+                        let newItem = Items()
+                        let price = (document.data()["price"] as! Double)
+                        newItem.sofaPrice = price
+                        if newItem.sofaPrice >= self.filteredPrice["min"]! && newItem.sofaPrice <= self.filteredPrice["max"]! {
+                            print(newItem.sofaPrice)
+                            let name = (document.data()["name"] as! String)
+                            newItem.sofaName = name
+                            
+                            let type = (document.data()["type"] as! String)
+                            newItem.sofaType = type
+                            let color = (document.data()["color"] as! String)
+                            newItem.sofaColor = color
+                            let weight = (document.data()["weight"] as! String)
+                            newItem.sofaWeight = weight
+                            self.searchedCollecton.reloadData()
+                            let storageRef = Storage.storage().reference(withPath: "products/\(document.documentID).png")
+                            storageRef.getData(maxSize: 4 * 1024 * 1024) { (data, error) in
+                                if let error = error{
+                                    print("Error: \(error)")
+                                }
+                                if let data = data{
+                                    newItem.sofaImage = UIImage(data: data)
+                                    self.searchedCollecton.reloadData()
+                                }
+                            }
+
+                        }
+                        if newItem.sofaName.count != 0 {
+                            print(newItem.sofaPrice)
+                            self.itemArray.append(newItem)
+                        }
+                    }
+                    self.searchedCollecton.reloadData()
+                    self.productsLabel.text = "\(self.itemArray.count) products found"
+                }
+            }
+            searchedCollecton.reloadData()
+        }
+        }
+        
     
     //MARK: - Filter Action
     
