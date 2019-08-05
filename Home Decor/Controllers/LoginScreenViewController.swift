@@ -44,6 +44,7 @@ class LoginScreenViewController: UIViewController,UITextFieldDelegate{
         Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
             if user != nil {
                 UserDefaults.standard.set(true, forKey: "Logged In")
+                UserDefaults.standard.setValue(self.emailTextField.text!, forKey: "user")
                 SVProgressHUD.dismiss()
                 let tabVC = self.storyboard?.instantiateViewController(withIdentifier: "TabBarViewController") as! TabBarViewController
                 self.navigationController?.pushViewController(tabVC, animated: true)

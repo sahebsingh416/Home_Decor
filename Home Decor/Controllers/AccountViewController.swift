@@ -24,6 +24,7 @@ class AccountViewController: UIViewController,UIImagePickerControllerDelegate,UI
     
     let db = Firestore.firestore()
     var currentUser = ""
+    var profilePicture : UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +36,8 @@ class AccountViewController: UIViewController,UIImagePickerControllerDelegate,UI
         emailLabel.text = UserDefaults.standard.string(forKey: "user")!
         currentUser = emailLabel.text!
         print(currentUser)
+        getProfile()
+        
         // Do any additional setup after loading the view.
     }
     
@@ -78,6 +81,19 @@ class AccountViewController: UIViewController,UIImagePickerControllerDelegate,UI
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         profileImageView.isHidden = false
         profileImageView.image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+        let uploadRef = Storage.storage().reference(withPath: "users/\(emailLabel.text!).jpg")
+        guard let imageData = profileImageView.image?.jpegData(compressionQuality: 0.75) else { return }
+        let uploadMetadata = StorageMetadata.init()
+        uploadMetadata.contentType = "user/jpeg"
+        uploadRef.putData(imageData, metadata: uploadMetadata) { (uploadedMetadata, error) in
+            if let error = error{
+                print(error.localizedDescription)
+            }
+            else
+            {
+                print(uploadedMetadata!)
+            }
+        }
         picker.dismiss(animated: true, completion: nil)
     }
     
@@ -87,11 +103,6 @@ class AccountViewController: UIViewController,UIImagePickerControllerDelegate,UI
     
     func getData()
     {
-        SVProgressHUD.show()
-        SVProgressHUD.setDefaultStyle(.custom)
-        SVProgressHUD.setDefaultMaskType(.custom)
-        SVProgressHUD.setBackgroundColor(UIColor.white)
-        SVProgressHUD.setForegroundColor(UIColor.orange)
         db.collection("users").getDocuments { (querySnapshot, err) in
             if let err = err{
                 print("Error getting documents \(err)")
@@ -106,20 +117,25 @@ class AccountViewController: UIViewController,UIImagePickerControllerDelegate,UI
                     }
                 }
             }
-            SVProgressHUD.dismiss()
+        }
+    }
+    
+    func getProfile(){
+        SVProgressHUD.show()
+        SVProgressHUD.setDefaultStyle(.custom)
+        SVProgressHUD.setDefaultMaskType(.custom)
+        SVProgressHUD.setBackgroundColor(UIColor.white)
+        SVProgressHUD.setForegroundColor(UIColor.orange)
+        let storageRef = Storage.storage().reference(withPath: "users/\(self.emailLabel.text!).jpg")
+        storageRef.getData(maxSize: 4 * 1024 * 1024) { (data, error) in
+            if let error = error{
+                print("Error: \(error)")
+            }
+            if let data = data{
+                self.profileImageView.image = UIImage(data: data)
+                SVProgressHUD.dismiss()
+            }
         }
     }
 }
-//let uploadRef = Storage.storage().reference(withPath: "posts/\(postedID).jpg")
-//guard let imageData = uploadedImage.image?.jpegData(compressionQuality: 0.75) else { return }
-//let uploadMetadata = StorageMetadata.init()
-//uploadMetadata.contentType = "uploads/jpeg"
-//uploadRef.putData(imageData, metadata: uploadMetadata) { (uploadedMetadata, error) in
-//    if let error = error{
-//        print(error.localizedDescription)
-//    }
-//    else
-//    {
-//        print(uploadedMetadata!)
-//    }
-//}
+

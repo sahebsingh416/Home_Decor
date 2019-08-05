@@ -38,7 +38,7 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        UserDefaults.standard.setValue(Auth.auth().currentUser!.email!, forKey: "user")
+        UserDefaults.standard.setValue(Auth.auth().currentUser?.email!, forKey: "user")
         UserDefaults.standard.set([], forKey: "dataToFilter")
         UserDefaults.standard.set([:], forKey: "filteredPrice")
         //print(String(UserDefaults.standard.integer(forKey: "cartItems")))
@@ -110,6 +110,7 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
                         }
                         if let data = data{
                             newItem.sofaImage = UIImage(data: data)
+                            self.furnitureCollection.reloadData()
                         }
                     }
                     self.itemArray.append(newItem)
@@ -120,7 +121,7 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
             
         }
         furnitureCollection.reloadData()
-        UserDefaults.standard.setValue(Auth.auth().currentUser!.email!, forKey: "user")
+        UserDefaults.standard.setValue(Auth.auth().currentUser?.email!, forKey: "user")
         getItemsInCart()
 
     }
@@ -128,7 +129,7 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
     func getItemsInCart()
     {
         var itemsInCart = 0
-        let user = UserDefaults.standard.string(forKey: "user")!
+        let user = UserDefaults.standard.string(forKey: "user")
         print(user)
         db.collection("cart").getDocuments { (querySnapshot, err) in
             if let err = err{
@@ -213,9 +214,10 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
                     if name.lowercased().contains(text.lowercased()) || type.lowercased().contains(text.lowercased()) {
                         self.itemArray.append(newItem)                    }
                 }
+                SVProgressHUD.dismiss()
                 self.productsLabel.text = "\(self.itemArray.count) products found for \(self.searchBar.text!)"
             }
-            SVProgressHUD.dismiss()
+            
         }
         searchedCollecton.reloadData()
     }
@@ -224,6 +226,11 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
     
     func searchFilteredData(for array : [String] = [""], price : [String : Double] = [:])
     {
+        SVProgressHUD.show()
+        SVProgressHUD.setDefaultStyle(.custom)
+        SVProgressHUD.setDefaultMaskType(.custom)
+        SVProgressHUD.setBackgroundColor(UIColor.white)
+        SVProgressHUD.setForegroundColor(UIColor.orange)
         if array.count > 0 {
             for text in array {
                 db.collection("products").getDocuments { (querySnapshot, err) in
@@ -233,6 +240,7 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
                     }
                     else{
                         for document in querySnapshot!.documents{
+                            var image : UIImage?
                             let newItem = Items()
                             let name = (document.data()["name"] as! String)
                             newItem.sofaName = name
@@ -252,16 +260,18 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
                                 }
                                 if let data = data{
                                     newItem.sofaImage = UIImage(data: data)
-                                    //self.searchedCollecton.reloadData()
+                                    self.furnitureCollection.reloadData()
                                 }
                             }
                             if name.lowercased().contains(text.lowercased()) || type.lowercased().contains(text.lowercased()) {
                                 self.itemArray.append(newItem)
+                                self.searchedCollecton.reloadData()
                             }
                         }
-                        self.searchedCollecton.reloadData()
+                        //self.searchedCollecton.reloadData()
                         self.productsLabel.text = "\(self.itemArray.count) products found"
                     }
+                    SVProgressHUD.dismiss()
                 }
                 searchedCollecton.reloadData()
             }
@@ -300,7 +310,6 @@ class HomeViewController: UIViewController,UISearchBarDelegate{
                                     self.searchedCollecton.reloadData()
                                 }
                             }
-
                         }
                         if newItem.sofaName.count != 0 {
                             print(newItem.sofaPrice)
